@@ -1,8 +1,10 @@
-import numpy as np
-import librosa, librosa.display
-import matplotlib.pyplot as plt
-import skimage.io
 import os
+
+import librosa
+import librosa.display
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 class SignalToImageConverter:
     def __init__(self, hop_length, n_fft):
@@ -14,7 +16,7 @@ class SignalToImageConverter:
         self.hop_length = hop_length
         self.n_fft = n_fft
 
-    def transform(self, signal, sample_rate):
+    def transform(self, signal):
         """
         Returns a spectrogram of a given signal
         :param signal:
@@ -33,13 +35,18 @@ class SignalToImageConverter:
     def tranform_save(self, signal, sample_rate, root, filename):
         specgram = self.transform(signal, sample_rate)
         self._save_image(specgram, sample_rate, root, filename)
+        self._crop(root, filename)
+
+    def _crop(self, root, filename):
+        image = plt.imread(os.path.join(root, filename))
+        plt.imsave(os.path.join(root, filename), image[2:image.shape[0]-5, 6:image.shape[1]-1])
 
 
 if __name__ == "__main__":
     converter = SignalToImageConverter(hop_length=512,
                                        n_fft=2048)
 
-    signal, sample_rate = librosa.load('elo.wav', sr=22000)
+    signal, sample_rate = librosa.load(r'/Signal-Processing-Project/audio_preprocessing/elo.wav', sr=22000)
     specgram = converter.transform(signal=signal,
                                    sample_rate=sample_rate)
     print(specgram, type(specgram), specgram.shape)

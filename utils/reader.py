@@ -1,7 +1,7 @@
-import sounddevice as sd
-import numpy as np
-from scipy.io.wavfile import write
 import os
+
+import sounddevice as sd
+from scipy.io.wavfile import write
 
 
 class AudioReader:
