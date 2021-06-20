@@ -26,11 +26,13 @@ class SignalToImageConverter:
         abs_specgram = librosa.amplitude_to_db(specgram)
         return abs_specgram
 
-    def to_image(self, specgram, sample_rate):
-        librosa.display.specshow(specgram, sr=sample_rate, hop_length=self.hop_length)
+    def _save_image(self, specgram, sample_rate, root, filename):
+        image = librosa.display.specshow(specgram, sr=sample_rate, hop_length=self.hop_length)
+        plt.savefig(os.path.join(root, filename), bbox_inches='tight', pad_inches=0.01)
 
-    def save(self, specgram, root, filename):
-        skimage.io.imsave(os.path.join(root, filename), specgram)
+    def tranform_save(self, signal, sample_rate, root, filename):
+        specgram = self.transform(signal, sample_rate)
+        self._save_image(specgram, sample_rate, root, filename)
 
 
 if __name__ == "__main__":
@@ -39,5 +41,6 @@ if __name__ == "__main__":
 
     signal, sample_rate = librosa.load('elo.wav', sr=22000)
     specgram = converter.transform(signal=signal,
-                        sample_rate=sample_rate)
+                                   sample_rate=sample_rate)
     print(specgram, type(specgram), specgram.shape)
+    converter.tranform_save(signal, sample_rate, r'C:\Users\gkrzy\projects\Signal-Processing-Project\audio_preprocessing', 'abcd.png')
