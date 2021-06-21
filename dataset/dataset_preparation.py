@@ -1,5 +1,8 @@
+from utils import AudioReader, SignalToImageConverter
 
-# import os
+from tqdm import tqdm
+import librosa
+import os
 #
 #
 # def rename_files():
@@ -13,4 +16,12 @@
 # rename_files()
 
 def transform():
-    pass
+    converter = SignalToImageConverter(hop_length=512,
+                                       n_fft=2048)
+    for i, file_name in tqdm(enumerate(os.listdir(r"D:\python-projects\data\down"))):
+        source = r'D:\python-projects\data\down\\'
+        signal, sr = librosa.load(source+file_name, sr=22000)
+        converter.tranform_save(signal, sr, r'D:\python-projects\data_images\down', 'down'+str(i)+'.png')
+
+
+transform()
