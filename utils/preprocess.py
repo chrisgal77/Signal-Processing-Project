@@ -4,6 +4,7 @@ import librosa
 import librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
+import pylab
 
 
 class SignalToImageConverter:
@@ -29,7 +30,7 @@ class SignalToImageConverter:
         return abs_specgram
 
     def _save_image(self, specgram, sample_rate, root, filename):
-        image = librosa.display.specshow(specgram, sr=sample_rate, hop_length=self.hop_length)
+        image = librosa.display.specshow(specgram, sr=sample_rate, hop_length=self.hop_length, cmap='viridis')
         plt.savefig(os.path.join(root, filename), bbox_inches='tight', pad_inches=0.01)
 
     def tranform_save(self, signal, sample_rate, root, filename):
@@ -46,7 +47,7 @@ if __name__ == "__main__":
     converter = SignalToImageConverter(hop_length=512,
                                        n_fft=2048)
 
-    signal, sample_rate = librosa.load(r'/Signal-Processing-Project/audio_preprocessing/elo.wav', sr=22000)
-    specgram = converter.transform(signal=signal)
-    print(specgram, type(specgram), specgram.shape)
-    converter.tranform_save(signal, sample_rate, r'C:\Users\gkrzy\projects\Signal-Processing-Project\audio_preprocessing', 'abcd.png')
+    for i in ['down', 'right', 'left', 'up']:
+        signal, sample_rate = librosa.load(r'/Signal-Processing-Project/audio_preprocessing/elo.wav', sr=22000)
+        specgram = converter.transform(signal=signal)
+        converter.tranform_save(signal, sample_rate, r'C:\Users\gkrzy\projects\Signal-Processing-Project\audio_preprocessing', 'abcd.png')

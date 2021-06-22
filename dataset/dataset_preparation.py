@@ -1,4 +1,4 @@
-from utils import AudioReader, SignalToImageConverter
+from utils import SignalToImageConverter
 
 from tqdm import tqdm
 import librosa
@@ -15,13 +15,17 @@ import os
 #
 # rename_files()
 
+
 def transform():
     converter = SignalToImageConverter(hop_length=512,
                                        n_fft=2048)
-    for i, file_name in tqdm(enumerate(os.listdir(r"D:\python-projects\data\down"))):
-        source = r'D:\python-projects\data\down\\'
-        signal, sr = librosa.load(source+file_name, sr=22000)
-        converter.tranform_save(signal, sr, r'D:\python-projects\data_images\down', 'down'+str(i)+'.png')
+    for name in ['other']:
+        for i, file_name in tqdm(enumerate(os.listdir(fr"C:\Users\Gal\Desktop\data\{name}\\"))):
+            if name == 'other' and i < 876:
+                continue
+            source = fr'C:\Users\Gal\Desktop\data\{name}\\'
+            signal, sr = librosa.load(source+file_name, sr=22000)
+            converter.tranform_save(signal, sr, fr'C:\Users\Gal\Desktop\transformed\{name}\\', f'{name}'+str(i)+'.png')
 
 
 transform()
