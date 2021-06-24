@@ -6,9 +6,9 @@ from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-def get_data(height, width, batch_size, ):
+def get_data(height, width, batch_size, data_path):
     ds_train = tf.keras.preprocessing.image_dataset_from_directory(
-        r"C:\Users\Gal\Desktop\transformed",
+        data_path,
         labels="inferred",
         label_mode="int",
         color_mode="rgb",
@@ -21,7 +21,7 @@ def get_data(height, width, batch_size, ):
     )
 
     ds_validation = tf.keras.preprocessing.image_dataset_from_directory(
-        r"C:\Users\Gal\Desktop\transformed",
+        data_path,
         labels="inferred",
         label_mode="int",
         color_mode="rgb",
