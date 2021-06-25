@@ -33,4 +33,5 @@ def get_data(height, width, batch_size, data_path):
         subset="validation",
     )
 
+
     return ds_train, ds_validation
